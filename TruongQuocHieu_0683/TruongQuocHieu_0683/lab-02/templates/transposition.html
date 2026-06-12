@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Transposition Cipher</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 45%, #eef2ff 100%);
+        }
+
+        .page-wrapper {
+            min-height: 100vh;
+            padding: 40px 15px;
+        }
+
+        .main-card {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.14);
+            border: 1px solid #e5e7eb;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 26px;
+        }
+
+        .back-link {
+            color: #2563eb;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: none;
+            color: #1d4ed8;
+        }
+
+        .cipher-badge {
+            background: #dcfce7;
+            color: #166534;
+            font-weight: 800;
+            padding: 9px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 900;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 34px;
+            font-size: 16px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 26px;
+        }
+
+        .section-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 26px;
+            background: #f8fafc;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 21px;
+            font-weight: 850;
+            color: #1e293b;
+            margin-bottom: 22px;
+        }
+
+        .icon-box {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
+        }
+
+        .encrypt-icon {
+            background: #16a34a;
+        }
+
+        .decrypt-icon {
+            background: #7c3aed;
+        }
+
+        label {
+            font-weight: 700;
+            color: #334155;
+        }
+
+        textarea.form-control {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .form-control {
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+            padding: 12px 14px;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+            border-color: #2563eb;
+        }
+
+        .btn-custom {
+            width: 100%;
+            border-radius: 13px;
+            padding: 12px;
+            font-weight: 850;
+            border: none;
+            color: white;
+            margin-top: 8px;
+        }
+
+        .btn-encrypt {
+            background: #16a34a;
+        }
+
+        .btn-encrypt:hover {
+            background: #15803d;
+            color: white;
+        }
+
+        .btn-decrypt {
+            background: #7c3aed;
+        }
+
+        .btn-decrypt:hover {
+            background: #6d28d9;
+            color: white;
+        }
+
+        .result-box {
+            margin-top: 22px;
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .result-encrypt {
+            background: #ecfdf5;
+            border: 1px solid #bbf7d0;
+        }
+
+        .result-decrypt {
+            background: #f5f3ff;
+            border: 1px solid #ddd6fe;
+        }
+
+        .result-title {
+            font-size: 14px;
+            font-weight: 850;
+            color: #475569;
+            margin-bottom: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-content {
+            background: white;
+            border-radius: 12px;
+            padding: 14px;
+            min-height: 48px;
+            font-size: 17px;
+            font-weight: 700;
+            word-break: break-word;
+            color: #0f172a;
+            border: 1px solid #e0e7ef;
+            white-space: pre-wrap;
+        }
+
+        .hint-box {
+            margin-top: 26px;
+            background: #fffdf3;
+            border: 1px solid #f5e6a3;
+            border-radius: 16px;
+            padding: 18px 22px;
+            color: #6b5b00;
+        }
+
+        .hint-box strong {
+            color: #4b4100;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-card {
+                padding: 28px 22px;
+            }
+
+            .title {
+                font-size: 24px;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <div class="main-card">
+            <div class="top-bar">
+                <a href="/" class="back-link">← Quay lại trang chủ</a>
+                <div class="cipher-badge">Transposition Cipher</div>
+            </div>
+
+            <h1 class="title">Transposition Cipher</h1>
+            <p class="subtitle">Mã hóa hoán vị cột bằng cách ghi dữ liệu theo hàng và đọc dữ liệu theo cột</p>
+
+            <div class="form-grid">
+                <div class="section-card">
+                    <div class="section-title">
+                        <div class="icon-box encrypt-icon">E</div>
+                        Mã hóa
+                    </div>
+
+                    <form method="POST" action="/transposition/encrypt">
+                        <div class="form-group">
+                            <label for="inputPlainText">Plain Text</label>
+                            <textarea
+                                class="form-control"
+                                id="inputPlainText"
+                                name="inputPlainText"
+                                placeholder="Nhập bản rõ cần mã hóa"
+                                required>{{ plain_text or '' }}</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputKeyPlain">Key</label>
+                            <input
+                                type="number"
+                                min="1"
+                                class="form-control"
+                                id="inputKeyPlain"
+                                name="inputKeyPlain"
+                                placeholder="Ví dụ: 4"
+                                value="{{ plain_key or '' }}"
+                                required>
+                        </div>
+
+                        <button type="submit" class="btn btn-custom btn-encrypt">Mã hóa</button>
+                    </form>
+
+                    {% if encrypted_text %}
+                    <div class="result-box result-encrypt">
+                        <div class="result-title">Kết quả mã hóa</div>
+                        <div class="result-content">{{ encrypted_text }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="section-card">
+                    <div class="section-title">
+                        <div class="icon-box decrypt-icon">D</div>
+                        Giải mã
+                    </div>
+
+                    <form method="POST" action="/transposition/decrypt">
+                        <div class="form-group">
+                            <label for="inputCipherText">Cipher Text</label>
+                            <textarea
+                                class="form-control"
+                                id="inputCipherText"
+                                name="inputCipherText"
+                                placeholder="Nhập bản mã cần giải mã"
+                                required>{{ cipher_text or '' }}</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputKeyCipher">Key</label>
+                            <input
+                                type="number"
+                                min="1"
+                                class="form-control"
+                                id="inputKeyCipher"
+                                name="inputKeyCipher"
+                                placeholder="Ví dụ: 4"
+                                value="{{ cipher_key or '' }}"
+                                required>
+                        </div>
+
+                        <button type="submit" class="btn btn-custom btn-decrypt">Giải mã</button>
+                    </form>
+
+                    {% if decrypted_text %}
+                    <div class="result-box result-decrypt">
+                        <div class="result-title">Kết quả giải mã</div>
+                        <div class="result-content">{{ decrypted_text }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="hint-box">
+                <strong>Gợi ý:</strong>
+                Với Transposition Cipher, key là số cột dùng để chia bản rõ.
+                Ví dụ key = 4 nghĩa là ghi chuỗi theo từng hàng 4 ký tự rồi đọc theo từng cột để tạo bản mã.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

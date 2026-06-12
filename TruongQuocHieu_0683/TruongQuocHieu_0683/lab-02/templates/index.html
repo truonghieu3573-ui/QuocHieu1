@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Thực hành Bảo mật thông tin nâng cao</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #e8f4ff 0%, #ffffff 45%, #eef7ff 100%);
+        }
+
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 15px;
+        }
+
+        .main-card {
+            width: 100%;
+            max-width: 1050px;
+            background: #ffffff;
+            border-radius: 22px;
+            padding: 38px 45px;
+            box-shadow: 0 15px 40px rgba(0, 66, 120, 0.16);
+            border: 1px solid #e1efff;
+        }
+
+        .logo {
+            width: 320px;
+            max-width: 80%;
+            display: block;
+            margin: 0 auto 18px auto;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 800;
+            color: #1d2b3a;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #5f6f80;
+            font-size: 16px;
+            margin-bottom: 35px;
+        }
+
+        .cipher-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        .cipher-card {
+            position: relative;
+            display: block;
+            text-decoration: none;
+            background: #f8fbff;
+            border: 1px solid #dcecff;
+            border-radius: 18px;
+            padding: 28px 16px;
+            text-align: center;
+            color: #0d6efd;
+            transition: all 0.25s ease;
+            min-height: 155px;
+        }
+
+        .cipher-card:hover {
+            text-decoration: none;
+            transform: translateY(-7px);
+            background: #0d6efd;
+            color: white;
+            box-shadow: 0 14px 28px rgba(13, 110, 253, 0.28);
+        }
+
+        .cipher-icon {
+            width: 58px;
+            height: 58px;
+            margin: 0 auto 16px auto;
+            border-radius: 16px;
+            background: #e7f1ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            transition: all 0.25s ease;
+        }
+
+        .cipher-card:hover .cipher-icon {
+            background: rgba(255, 255, 255, 0.18);
+            color: white;
+        }
+
+        .cipher-name {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .cipher-desc {
+            font-size: 13px;
+            color: #6b7c8f;
+            margin: 0;
+            transition: all 0.25s ease;
+        }
+
+        .cipher-card:hover .cipher-desc {
+            color: #eaf3ff;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #7b8794;
+        }
+
+        @media (max-width: 1200px) {
+            .cipher-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cipher-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .main-card {
+                padding: 30px 25px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .cipher-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .title {
+                font-size: 21px;
+            }
+
+            .logo {
+                width: 260px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <div class="main-card">
+            <img
+                src="https://file1.hutech.edu.vn/file/editor/homepage/stories/hinh34/logo%20CMYK-01.png"
+                alt="HUTECH"
+                class="logo"
+            >
+
+            <h1 class="title">Bài thực hành bảo mật thông tin nâng cao</h1>
+            <p class="subtitle">Chọn thuật toán mã hóa để thực hiện mã hóa và giải mã dữ liệu</p>
+
+            <div class="cipher-grid">
+                <a href="/caesar" class="cipher-card">
+                    <div class="cipher-icon">C</div>
+                    <div class="cipher-name">Caesar Cipher</div>
+                    <p class="cipher-desc">Mã hóa dịch chuyển ký tự</p>
+                </a>
+
+                <a href="/vigenere" class="cipher-card">
+                    <div class="cipher-icon">V</div>
+                    <div class="cipher-name">Vigenere Cipher</div>
+                    <p class="cipher-desc">Mã hóa bằng khóa lặp</p>
+                </a>
+
+                <a href="/railfence" class="cipher-card">
+                    <div class="cipher-icon">R</div>
+                    <div class="cipher-name">Rail Fence Cipher</div>
+                    <p class="cipher-desc">Mã hóa theo hàng rào</p>
+                </a>
+
+                <a href="/playfair" class="cipher-card">
+                    <div class="cipher-icon">P</div>
+                    <div class="cipher-name">Playfair Cipher</div>
+                    <p class="cipher-desc">Mã hóa theo ma trận khóa</p>
+                </a>
+
+                <a href="/transposition" class="cipher-card">
+                    <div class="cipher-icon">T</div>
+                    <div class="cipher-name">Transposition Cipher</div>
+                    <p class="cipher-desc">Mã hóa hoán vị vị trí</p>
+                </a>
+            </div>
+
+            <div class="footer-note">
+                Flask Web Application - Advanced Information Security Practice
+            </div>
+        </div>
+    </div>
+</body>
+</html>

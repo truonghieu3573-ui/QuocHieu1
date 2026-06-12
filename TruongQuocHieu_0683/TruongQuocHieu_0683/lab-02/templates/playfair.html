@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Playfair Cipher</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #e8f4ff 0%, #ffffff 45%, #eef7ff 100%);
+        }
+
+        .page-wrapper {
+            min-height: 100vh;
+            padding: 35px 15px;
+        }
+
+        .main-card {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 22px;
+            padding: 34px 42px;
+            box-shadow: 0 15px 40px rgba(0, 66, 120, 0.16);
+            border: 1px solid #e1efff;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 9px 16px;
+            border-radius: 999px;
+            background: #eef6ff;
+            color: #0d6efd;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid #d6eaff;
+            transition: 0.2s;
+        }
+
+        .back-link:hover {
+            background: #0d6efd;
+            color: white;
+            text-decoration: none;
+        }
+
+        .cipher-badge {
+            padding: 9px 16px;
+            border-radius: 999px;
+            background: #e7f1ff;
+            color: #0d6efd;
+            font-weight: 700;
+            border: 1px solid #cfe4ff;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 30px;
+            font-weight: 800;
+            color: #1d2b3a;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #637487;
+            font-size: 16px;
+            margin-bottom: 32px;
+        }
+
+        .matrix-card {
+            background: #f8fbff;
+            border: 1px solid #dcecff;
+            border-radius: 18px;
+            padding: 26px;
+            margin-bottom: 24px;
+        }
+
+        .matrix-layout {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .matrix-icon {
+            background: #0d6efd;
+        }
+
+        .btn-matrix {
+            background: #0d6efd;
+            color: white;
+        }
+
+        .btn-matrix:hover {
+            background: #0b5ed7;
+            color: white;
+        }
+
+        .matrix-result {
+            background: #eef6ff;
+            border: 1px solid #b7d7ff;
+            border-radius: 14px;
+            padding: 18px;
+            min-width: 330px;
+        }
+
+        .playfair-table {
+            margin-top: 12px;
+            border-collapse: separate;
+            border-spacing: 8px;
+        }
+
+        .playfair-table td {
+            width: 48px;
+            height: 48px;
+            text-align: center;
+            vertical-align: middle;
+            background: white;
+            border: 1px solid #cfe4ff;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 800;
+            color: #0f172a;
+            box-shadow: 0 3px 8px rgba(0, 66, 120, 0.08);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .section-card {
+            background: #f8fbff;
+            border: 1px solid #dcecff;
+            border-radius: 18px;
+            padding: 26px;
+            height: 100%;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #1d2b3a;
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 22px;
+            text-transform: uppercase;
+        }
+
+        .icon-box {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .encrypt-icon {
+            background: #dc3545;
+        }
+
+        .decrypt-icon {
+            background: #198754;
+        }
+
+        label {
+            color: #2e3a48;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            height: 48px;
+            border-radius: 12px;
+            border: 1px solid #cfdbe8;
+            padding: 10px 14px;
+            font-size: 15px;
+        }
+
+        .form-control:focus {
+            border-color: #ff9aa5;
+            box-shadow: 0 0 0 0.18rem rgba(220, 53, 69, 0.18);
+        }
+
+        textarea.form-control {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .btn-custom {
+            min-width: 130px;
+            border-radius: 12px;
+            padding: 11px 20px;
+            font-weight: 700;
+            border: none;
+            transition: 0.2s;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-encrypt {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-encrypt:hover {
+            background: #bb2d3b;
+            color: white;
+        }
+
+        .btn-decrypt {
+            background: #198754;
+            color: white;
+        }
+
+        .btn-decrypt:hover {
+            background: #157347;
+            color: white;
+        }
+
+        .result-box {
+            margin-top: 18px;
+            border-radius: 14px;
+            padding: 16px 18px;
+            border: 1px solid;
+        }
+
+        .result-encrypt {
+            background: #fff0f2;
+            border-color: #ffb8c0;
+        }
+
+        .result-decrypt {
+            background: #eefbf3;
+            border-color: #a8e2bd;
+        }
+
+        .result-title {
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #1d2b3a;
+        }
+
+        .result-content {
+            background: white;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 18px;
+            font-weight: 700;
+            word-break: break-word;
+            color: #0f172a;
+            border: 1px solid #e0e7ef;
+        }
+
+        .hint-box {
+            margin-top: 26px;
+            background: #fff8e6;
+            border: 1px solid #ffe3a3;
+            color: #7a5b00;
+            border-radius: 15px;
+            padding: 15px 18px;
+            font-size: 14px;
+        }
+
+        .hint-box strong {
+            color: #5f4500;
+        }
+
+        @media (max-width: 992px) {
+            .matrix-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .matrix-result {
+                min-width: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-card {
+                padding: 25px 20px;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .title {
+                font-size: 24px;
+            }
+
+            .playfair-table td {
+                width: 42px;
+                height: 42px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <div class="main-card">
+            <div class="top-bar">
+                <a href="/" class="back-link">← Quay lại trang chủ</a>
+                <div class="cipher-badge">Playfair Cipher</div>
+            </div>
+
+            <h1 class="title">Playfair Cipher</h1>
+            <p class="subtitle">
+                Thuật toán Playfair sử dụng ma trận khóa 5x5 để mã hóa từng cặp ký tự trong bản rõ.
+            </p>
+
+            <div class="matrix-card">
+                <div class="matrix-layout">
+                    <div>
+                        <h2 class="section-title">
+                            <span class="icon-box matrix-icon">M</span>
+                            Create Playfair Matrix
+                        </h2>
+
+                        <form method="POST" action="/playfair/creatematrix">
+                            <div class="form-group">
+                                <label for="inputMatrixKey">Matrix Key</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="inputMatrixKey"
+                                    name="inputMatrixKey"
+                                    placeholder="Nhập khóa để tạo ma trận, ví dụ: MONARCHY"
+                                    value="{{ matrix_key or '' }}"
+                                    required
+                                >
+                            </div>
+
+                            <button type="submit" class="btn btn-custom btn-matrix">
+                                Create Matrix
+                            </button>
+                        </form>
+                    </div>
+
+                    {% if playfair_matrix %}
+                    <div class="matrix-result">
+                        <div class="result-title">Ma trận Playfair 5x5</div>
+
+                        <table class="playfair-table">
+                            {% for row in playfair_matrix %}
+                            <tr>
+                                {% for item in row %}
+                                <td>{{ item }}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="section-card">
+                    <h2 class="section-title">
+                        <span class="icon-box encrypt-icon">E</span>
+                        Encryption
+                    </h2>
+
+                    <form method="POST" action="/playfair/encrypt">
+                        <div class="form-group">
+                            <label for="inputPlainText">Plain text</label>
+                            <textarea
+                                class="form-control"
+                                id="inputPlainText"
+                                name="inputPlainText"
+                                placeholder="Nhập nội dung cần mã hóa"
+                                required
+                            >{{ plain_text or '' }}</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputKeyPlain">Key</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="inputKeyPlain"
+                                name="inputKeyPlain"
+                                placeholder="Nhập khóa chữ, ví dụ: MONARCHY"
+                                value="{{ plain_key or '' }}"
+                                required
+                            >
+                        </div>
+
+                        <button type="submit" class="btn btn-custom btn-encrypt">
+                            Encrypt
+                        </button>
+
+                        {% if encrypted_text %}
+                        <div class="result-box result-encrypt">
+                            <div class="result-title">Kết quả mã hóa</div>
+                            <div class="result-content">{{ encrypted_text }}</div>
+                        </div>
+                        {% endif %}
+                    </form>
+                </div>
+
+                <div class="section-card">
+                    <h2 class="section-title">
+                        <span class="icon-box decrypt-icon">D</span>
+                        Decryption
+                    </h2>
+
+                    <form method="POST" action="/playfair/decrypt">
+                        <div class="form-group">
+                            <label for="inputCipherText">Cipher text</label>
+                            <textarea
+                                class="form-control"
+                                id="inputCipherText"
+                                name="inputCipherText"
+                                placeholder="Nhập nội dung cần giải mã"
+                                required
+                            >{{ cipher_text or '' }}</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputKeyCipher">Key</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="inputKeyCipher"
+                                name="inputKeyCipher"
+                                placeholder="Nhập khóa chữ, ví dụ: MONARCHY"
+                                value="{{ cipher_key or '' }}"
+                                required
+                            >
+                        </div>
+
+                        <button type="submit" class="btn btn-custom btn-decrypt">
+                            Decrypt
+                        </button>
+
+                        {% if decrypted_text %}
+                        <div class="result-box result-decrypt">
+                            <div class="result-title">Kết quả giải mã</div>
+                            <div class="result-content">{{ decrypted_text }}</div>
+                        </div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+
+            <div class="hint-box">
+                <strong>Gợi ý:</strong>
+                Playfair Cipher dùng khóa dạng chữ để tạo ma trận 5x5.
+                Ví dụ key <strong>MONARCHY</strong> sẽ sinh ra ma trận khóa dùng cho quá trình mã hóa và giải mã.
+                Nên nhập chữ cái tiếng Anh không dấu, không nhập ký tự đặc biệt.
+                Trong Playfair, chữ <strong>I</strong> và <strong>J</strong> thường được xử lý chung.
+            </div>
+        </div>
+    </div>
+</body>
+</html>
