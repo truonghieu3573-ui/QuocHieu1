@@ -1,0 +1,3 @@
+pycryptodome
+Flask
+Flask-SocketIO
